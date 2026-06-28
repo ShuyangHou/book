@@ -1,6 +1,3 @@
-# 视频数据集 (太大，无法直接推送到 GitHub)
-dataset/*.mp4
-
 # Python
 __pycache__/
 *.py[cod]
