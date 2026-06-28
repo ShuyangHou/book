@@ -11,12 +11,20 @@
         ],
         [
           848.8888888888888,
+          71.48148148148152
+        ],
+        [
+          848.8888888888888,
+          901.1111111111111
+        ],
+        [
+          772.3456790123456,
           901.1111111111111
         ]
       ],
       "group_id": null,
       "description": "",
-      "shape_type": "rectangle",
+      "shape_type": "polygon",
       "flags": {},
       "mask": null
     },
@@ -42,7 +50,7 @@
       ],
       "group_id": null,
       "description": "",
-      "shape_type": "oriented_rectangle",
+      "shape_type": "polygon",
       "flags": {},
       "mask": null
     },

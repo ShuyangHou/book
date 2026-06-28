@@ -32,42 +32,6 @@
       "label": "book_spine",
       "points": [
         [
-          351.83673469387753,
-          592.0408163265306
-        ],
-        [
-          349.7959183673469,
-          587.9591836734694
-        ]
-      ],
-      "group_id": null,
-      "description": "",
-      "shape_type": "polygon",
-      "flags": {},
-      "mask": null
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
-          266.1224489795918,
-          512.4489795918367
-        ],
-        [
-          270.204081632653,
-          510.40816326530614
-        ]
-      ],
-      "group_id": null,
-      "description": "",
-      "shape_type": "polygon",
-      "flags": {},
-      "mask": null
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
           419.1836734693877,
           128.77551020408166
         ],
