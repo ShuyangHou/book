@@ -1,0 +1,20 @@
+# Training environment requirements for MaskDINO book spine segmentation
+# Install in order:
+
+# 1. PyTorch (match your CUDA version)
+# pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
+
+# 2. Detectron2
+# pip install detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu118/torch2.1/index.html
+
+# 3. MaskDINO
+# git clone https://github.com/IDEA-Research/MaskDINO.git
+# cd MaskDINO && pip install -e .
+
+# 4. Other dependencies
+Pillow>=9.0
+opencv-python>=4.5
+shapely>=2.0
+pycocotools>=2.0
+numpy>=1.24
+scipy>=1.10

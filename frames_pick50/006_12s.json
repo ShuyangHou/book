@@ -6,24 +6,6 @@
       "label": "book_spine",
       "points": [
         [
-          554.0,
-          0.0
-        ],
-        [
-          493.0,
-          1079.0
-        ]
-      ],
-      "group_id": null,
-      "description": "",
-      "shape_type": "polygon",
-      "flags": {},
-      "mask": null
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
           1275.0,
           1079.0
         ],
