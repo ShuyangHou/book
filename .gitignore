@@ -1,0 +1,20 @@
+# 视频数据集 (太大，无法直接推送到 GitHub)
+dataset/*.mp4
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

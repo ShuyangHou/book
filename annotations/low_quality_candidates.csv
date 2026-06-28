@@ -1,0 +1,3 @@
+﻿scope,video_id,frame,t_sec,severity,lap_var,brightness,contrast,over_pct,under_pct,reasons,video_verdict
+
+scope,video_id,frames_scored,severe,suspect,ok,verdict
