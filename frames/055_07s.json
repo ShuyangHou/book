@@ -1,5 +1,5 @@
 {
-  "version": "5.0.1",
+  "version": "6.3.1",
   "flags": {},
   "shapes": [
     {
@@ -49,7 +49,8 @@
       "group_id": null,
       "description": "score=0.9995",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -98,7 +99,8 @@
       "group_id": null,
       "description": "score=0.9991",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -143,7 +145,8 @@
       "group_id": null,
       "description": "score=0.9988",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -184,7 +187,8 @@
       "group_id": null,
       "description": "score=0.9984",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -229,18 +233,19 @@
       "group_id": null,
       "description": "score=0.9984",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
       "points": [
         [
-          1372.0,
-          85.0
+          1374.2857142857142,
+          73.67346938775515
         ],
         [
-          1364.0,
-          98.0
+          1360.0,
+          77.75510204081635
         ],
         [
           1394.0,
@@ -263,14 +268,15 @@
           998.0
         ],
         [
-          1393.0,
-          96.0
+          1396.7346938775509,
+          77.75510204081635
         ]
       ],
       "group_id": null,
       "description": "score=0.9983",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -311,48 +317,50 @@
       "group_id": null,
       "description": "score=0.9982",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
       "points": [
         [
-          1334.0,
-          80.0
+          1319.1836734693877,
+          67.55102040816328
         ],
         [
-          1327.0,
-          140.0
+          1316.795918367347,
+          137.95918367346937
         ],
         [
-          1341.0,
-          616.0
+          1330.795918367347,
+          613.9591836734694
         ],
         [
-          1364.0,
-          1043.0
+          1374.2857142857142,
+          1053.2653061224491
         ],
         [
-          1382.0,
-          1056.0
+          1371.795918367347,
+          1053.9591836734694
         ],
         [
-          1391.0,
-          1047.0
+          1408.9795918367347,
+          1045.1020408163267
         ],
         [
-          1364.0,
-          151.0
+          1357.9591836734694,
+          149.1836734693878
         ],
         [
-          1357.0,
-          86.0
+          1355.9183673469388,
+          69.59183673469391
         ]
       ],
       "group_id": null,
       "description": "score=0.9981",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -401,14 +409,15 @@
       "group_id": null,
       "description": "score=0.9980",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
       "points": [
         [
-          1746.0,
-          87.0
+          1743.673469387755,
+          71.63265306122452
         ],
         [
           1738.0,
@@ -439,14 +448,15 @@
           107.0
         ],
         [
-          1800.0,
-          88.0
+          1800.8163265306123,
+          79.79591836734699
         ]
       ],
       "group_id": null,
       "description": "score=0.9980",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -535,7 +545,8 @@
       "group_id": null,
       "description": "score=0.9978",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -545,8 +556,8 @@
           45.0
         ],
         [
-          380.0,
-          51.0
+          378.3673469387755,
+          28.775510204081684
         ],
         [
           365.0,
@@ -580,7 +591,8 @@
       "group_id": null,
       "description": "score=0.9978",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -621,7 +633,8 @@
       "group_id": null,
       "description": "score=0.9977",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -682,7 +695,8 @@
       "group_id": null,
       "description": "score=0.9976",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -727,7 +741,8 @@
       "group_id": null,
       "description": "score=0.9974",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -768,7 +783,8 @@
       "group_id": null,
       "description": "score=0.9967",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -809,7 +825,8 @@
       "group_id": null,
       "description": "score=0.9966",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -874,7 +891,8 @@
       "group_id": null,
       "description": "score=0.9963",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -892,8 +910,8 @@
           93.0
         ],
         [
-          67.0,
-          91.0
+          74.28571428571425,
+          53.265306122449005
         ],
         [
           48.0,
@@ -904,41 +922,42 @@
           837.0
         ],
         [
-          3.0,
-          987.0
+          0.8163265306122014,
+          1047.1428571428573
         ],
         [
-          11.0,
-          1001.0
+          2.8571428571428115,
+          1049.183673469388
         ],
         [
-          29.0,
-          999.0
+          17.142857142857096,
+          1063.4693877551022
         ],
         [
           46.0,
           849.0
         ],
         [
-          102.0,
-          87.0
+          106.93877551020404,
+          47.142857142857196
         ]
       ],
       "group_id": null,
       "description": "score=0.9961",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
       "points": [
         [
-          264.0,
-          71.0
+          280.4081632653061,
+          43.06122448979596
         ],
         [
-          212.0,
-          74.0
+          206.93877551020404,
+          45.102040816326564
         ],
         [
           203.0,
@@ -961,14 +980,15 @@
           186.0
         ],
         [
-          274.0,
-          83.0
+          270.204081632653,
+          81.83673469387759
         ]
       ],
       "group_id": null,
       "description": "score=0.9958",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -1013,7 +1033,8 @@
       "group_id": null,
       "description": "score=0.9917",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
@@ -1058,334 +1079,60 @@
       "group_id": null,
       "description": "score=0.9863",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
       "points": [
         [
-          89.0,
-          786.0
+          113.06122448979588,
+          43.06122448979596
         ],
         [
-          80.0,
-          954.0
+          153.87755102040813,
+          47.142857142857196
         ],
         [
-          80.0,
-          1038.0
+          78.36734693877547,
+          1067.5510204081634
         ],
         [
-          84.0,
-          1043.0
-        ],
-        [
-          88.0,
-          1044.0
-        ],
-        [
-          90.0,
-          1039.0
+          23.265306122448933,
+          1053.2653061224491
         ]
       ],
       "group_id": null,
-      "description": "score=0.9825",
+      "description": "",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     },
     {
       "label": "book_spine",
       "points": [
         [
-          107.0,
-          515.0
+          153.87755102040813,
+          41.02040816326536
         ],
         [
-          107.0,
-          529.0
+          192.65306122448976,
+          47.142857142857196
         ],
         [
-          106.0,
-          530.0
+          125.30612244897955,
+          1053.2653061224491
         ],
         [
-          106.0,
-          580.0
-        ],
-        [
-          105.0,
-          581.0
-        ],
-        [
-          105.0,
-          602.0
-        ],
-        [
-          104.0,
-          603.0
-        ],
-        [
-          104.0,
-          606.0
-        ],
-        [
-          107.0,
-          611.0
-        ],
-        [
-          109.0,
-          606.0
-        ],
-        [
-          109.0,
-          602.0
-        ],
-        [
-          108.0,
-          601.0
-        ],
-        [
-          108.0,
-          531.0
-        ],
-        [
-          107.0,
-          530.0
+          80.40816326530607,
+          1055.3061224489797
         ]
       ],
       "group_id": null,
-      "description": "score=0.9825",
+      "description": "",
       "shape_type": "polygon",
-      "flags": {}
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
-          98.0,
-          479.0
-        ],
-        [
-          94.0,
-          484.0
-        ],
-        [
-          93.0,
-          491.0
-        ],
-        [
-          94.0,
-          692.0
-        ],
-        [
-          99.0,
-          678.0
-        ],
-        [
-          99.0,
-          638.0
-        ],
-        [
-          102.0,
-          609.0
-        ],
-        [
-          101.0,
-          504.0
-        ]
-      ],
-      "group_id": null,
-      "description": "score=0.9825",
-      "shape_type": "polygon",
-      "flags": {}
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
-          145.0,
-          250.0
-        ],
-        [
-          119.0,
-          540.0
-        ],
-        [
-          112.0,
-          1029.0
-        ],
-        [
-          115.0,
-          961.0
-        ],
-        [
-          121.0,
-          997.0
-        ],
-        [
-          145.0,
-          745.0
-        ],
-        [
-          161.0,
-          429.0
-        ]
-      ],
-      "group_id": null,
-      "description": "score=0.9825",
-      "shape_type": "polygon",
-      "flags": {}
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
-          168.0,
-          203.0
-        ],
-        [
-          166.0,
-          210.0
-        ],
-        [
-          165.0,
-          360.0
-        ],
-        [
-          168.0,
-          397.0
-        ],
-        [
-          174.0,
-          293.0
-        ],
-        [
-          174.0,
-          210.0
-        ]
-      ],
-      "group_id": null,
-      "description": "score=0.9825",
-      "shape_type": "polygon",
-      "flags": {}
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
-          154.0,
-          86.0
-        ],
-        [
-          153.0,
-          86.0
-        ],
-        [
-          152.0,
-          87.0
-        ],
-        [
-          150.0,
-          87.0
-        ],
-        [
-          150.0,
-          98.0
-        ],
-        [
-          149.0,
-          99.0
-        ],
-        [
-          149.0,
-          106.0
-        ],
-        [
-          150.0,
-          107.0
-        ],
-        [
-          150.0,
-          119.0
-        ],
-        [
-          154.0,
-          115.0
-        ],
-        [
-          154.0,
-          109.0
-        ],
-        [
-          155.0,
-          108.0
-        ],
-        [
-          155.0,
-          95.0
-        ],
-        [
-          154.0,
-          94.0
-        ]
-      ],
-      "group_id": null,
-      "description": "score=0.9825",
-      "shape_type": "polygon",
-      "flags": {}
-    },
-    {
-      "label": "book_spine",
-      "points": [
-        [
-          1883.0,
-          93.0
-        ],
-        [
-          1869.0,
-          107.0
-        ],
-        [
-          1866.0,
-          100.0
-        ],
-        [
-          1857.0,
-          279.0
-        ],
-        [
-          1849.0,
-          100.0
-        ],
-        [
-          1831.0,
-          111.0
-        ],
-        [
-          1874.0,
-          1024.0
-        ],
-        [
-          1879.0,
-          1038.0
-        ],
-        [
-          1904.0,
-          1040.0
-        ],
-        [
-          1908.0,
-          102.0
-        ],
-        [
-          1891.0,
-          131.0
-        ]
-      ],
-      "group_id": null,
-      "description": "score=0.9454",
-      "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "055_07s.jpg",
