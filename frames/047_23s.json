@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "5.0.1",
   "flags": {},
   "shapes": [
@@ -1641,7 +1641,7 @@
       "flags": {}
     }
   ],
-  "imagePath": "/root/book/frames/047_23s.jpg",
+  "imagePath": "047_23s.jpg",
   "imageData": null,
   "imageHeight": 1080,
   "imageWidth": 1920

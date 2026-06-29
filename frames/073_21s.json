@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "5.0.1",
   "flags": {},
   "shapes": [
@@ -1420,7 +1420,7 @@
       "flags": {}
     }
   ],
-  "imagePath": "/root/book/frames/073_21s.jpg",
+  "imagePath": "073_21s.jpg",
   "imageData": null,
   "imageHeight": 1080,
   "imageWidth": 1920
