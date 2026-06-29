@@ -1,4 +1,4 @@
-# 图书馆书架图书检测项目
+﻿# 图书馆书架图书检测项目
 
 ## 项目简介
 
@@ -15,9 +15,7 @@
 ```
 项目制实践-AI/
 ├── dataset/              # 原始视频数据(90个MP4文件, 约5.6GB)
-├── frames/               # 从视频提取的关键帧(180张)
-├── frames_pick50/        # 精选的高质量帧(50张)
-├── prelable/             # 预标注JSON文件(180个, LabelMe格式)
+├── frames/               # 帧图片(229张) + JSON标注文件(229个)
 ├── book_spine_dataset/   # COCO格式训练数据集
 │   └── coco/
 │       ├── train/        # 训练集(39张)
@@ -25,10 +23,13 @@
 ├── _tools/               # 数据处理工具链
 ├── annotations/          # 标注清单和状态跟踪
 ├── thumbnails/           # 视频缩略图索引
-├── ocr_dict/             # OCR字典
 ├── LABELME_标注指南.md   # 标注详细指南
 └── 项目分工说明.md        # 团队分工文档
 ```
+
+**说明**: 
+- `frames/` 目录已整合所有图片和标注文件，包含预标注和手工标注
+- 标注工作直接在 `frames/` 目录中进行，使用 LabelMe 打开修改即可
 
 ---
 
@@ -60,18 +61,18 @@ labelme --version
 # 方式1: 直接启动LabelMe图形界面
 labelme
 
-# 方式2: 指定要标注的图片目录
-labelme frames_pick50/
+# 方式2: 指定frames目录(推荐)
+labelme frames/
 
-# 方式3: 指定输出JSON的保存位置
-labelme frames_pick50/ --output prelable/
+# JSON文件会自动保存到frames/目录，与图片同名
 ```
 
 #### Step 2: 打开图片
 
 1. 点击菜单 `File` → `Open` 或按 `Ctrl+O`
-2. 选择 `frames_pick50/` 目录下的图片文件
+2. 选择 `frames/` 目录下的图片文件
 3. 或直接拖拽图片到 LabelMe 窗口
+4. **如果该图片已有JSON标注文件，LabelMe会自动加载并显示现有标注**
 
 #### Step 3: 创建多边形标注
 
@@ -343,3 +344,6 @@ cat annotations/label_status.csv
 ---
 
 **最后更新**: 2026年6月29日
+
+
+
