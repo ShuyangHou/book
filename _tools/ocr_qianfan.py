@@ -36,7 +36,7 @@ from PIL import Image
 
 DEFAULT_ENDPOINT = "https://qianfan.baidubce.com/v2/chat/completions"
 DEFAULT_MODEL = "deepseek-ocr"
-DEFAULT_PROMPT = "请识别这张书脊图片中的书名，只输出书名，不要解释。"
+DEFAULT_PROMPT = "<image>\nFree OCR."
 DEFAULT_ROTATIONS = (0, 90, 270)
 FRAME_RE = re.compile(r"^(?P<video>\d{3})_(?P<stamp>[^_]+?)(?:_crop_(?P<crop>\d+))?$")
 SPACE_RE = re.compile(r"\s+")
@@ -229,8 +229,8 @@ def call_ocr(
         raise RuntimeError(f"Network error: {exc}") from exc
 
     data = json.loads(raw)
-    if "error" in data:
-        raise RuntimeError(json.dumps(data["error"], ensure_ascii=False))
+    if "code" in data or "message" in data or "type" in data:
+        raise RuntimeError(json.dumps(data, ensure_ascii=False))
     if "choices" not in data:
         raise RuntimeError(f"Unexpected response: {json.dumps(data, ensure_ascii=False)}")
     return data
