@@ -12,6 +12,8 @@ venv/
 .vscode/
 .idea/
 .claude/
+.codex/
+.agents/
 
 # OS
 .DS_Store
@@ -20,3 +22,10 @@ Thumbs.db
 # Project specific
 thumbnails/
 ocr_dict/
+.env
+.env.local
+env.yaml
+metrics.json
+output/
+crops/
+*.pt

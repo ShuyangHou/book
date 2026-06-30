@@ -20,9 +20,18 @@ and launches training via Detectron2's DefaultTrainer.
 from __future__ import annotations
 
 import argparse
+import copy
+import itertools
 import os
 import sys
 from pathlib import Path
+from typing import Any, Dict, List, Set
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+MASKDINO_ROOT = PROJECT_ROOT / "MaskDINO"
+if MASKDINO_ROOT.exists():
+    sys.path.insert(0, str(MASKDINO_ROOT))
 
 
 def register_book_spine(data_root: str):
@@ -38,7 +47,8 @@ def register_book_spine(data_root: str):
 
 
 def build_config(data_root: str, output_dir: str, max_iter: int, batch_size: int,
-                 lr: float, num_gpus: int):
+                 lr: float, num_gpus: int, weights: str | None, config_file: str,
+                 num_workers: int, allow_fallback: bool):
     """Build a Detectron2 CfgNode for MaskDINO-R50 instance segmentation."""
     from detectron2.config import get_cfg
     from detectron2 import model_zoo
@@ -49,22 +59,48 @@ def build_config(data_root: str, output_dir: str, max_iter: int, batch_size: int
         has_maskdino = True
     except ImportError:
         has_maskdino = False
-        print("WARNING: MaskDINO not installed. Falling back to Mask R-CNN R50-FPN.")
+        if allow_fallback:
+            print("WARNING: MaskDINO not installed. Falling back to Mask R-CNN R50-FPN.")
+        else:
+            raise ImportError(
+                "MaskDINO is not installed. Clone MaskDINO under this project and run "
+                "`cd MaskDINO && python -m pip install -e .`, or pass --allow-fallback "
+                "if you intentionally want Mask R-CNN."
+            )
 
     cfg = get_cfg()
 
     if has_maskdino:
+        from detectron2.projects.deeplab import add_deeplab_config
+
+        add_deeplab_config(cfg)
         add_maskdino_config(cfg)
         # Use MaskDINO R50 config
-        maskdino_config = Path(__file__).parent.parent / "MaskDINO" / "configs" / "coco" / "instance-segmentation" / "maskdino_R50_bs16_50ep_3s.yaml"
+        maskdino_config = Path(config_file)
         if maskdino_config.exists():
             cfg.merge_from_file(str(maskdino_config))
+            if weights:
+                weights_path = Path(weights)
+                if weights_path.exists() and weights_path.stat().st_size > 0:
+                    cfg.MODEL.WEIGHTS = str(weights_path)
+                    print(f"Using pretrained weights: {cfg.MODEL.WEIGHTS}")
+                else:
+                    raise FileNotFoundError(
+                        f"MaskDINO weights not found or empty: {weights_path}. "
+                        "Download it first or pass --weights ''."
+                    )
         else:
             # Fallback: find any MaskDINO R50 config
             print(f"MaskDINO config not found at {maskdino_config}")
             print("Please clone MaskDINO repo alongside this project.")
-            print("Falling back to Mask R-CNN.")
-            has_maskdino = False
+            if allow_fallback:
+                print("Falling back to Mask R-CNN.")
+                has_maskdino = False
+            else:
+                raise FileNotFoundError(
+                    f"MaskDINO config not found: {maskdino_config}. "
+                    "Clone MaskDINO under /home/liaoyun/book or pass --allow-fallback."
+                )
 
     if not has_maskdino:
         cfg.merge_from_file(model_zoo.get_config_file(
@@ -79,7 +115,7 @@ def build_config(data_root: str, output_dir: str, max_iter: int, batch_size: int
     cfg.DATASETS.TEST = ("book_spine_val",)
 
     # Dataloader
-    cfg.DATALOADER.NUM_WORKERS = 2
+    cfg.DATALOADER.NUM_WORKERS = num_workers
 
     # Solver - tuned for small dataset
     cfg.SOLVER.IMS_PER_BATCH = batch_size
@@ -119,7 +155,20 @@ def main():
     parser.add_argument("--num-gpus", type=int, default=1)
     parser.add_argument("--max-iter", type=int, default=3000)
     parser.add_argument("--batch-size", type=int, default=2)
+    parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=0.0001)
+    parser.add_argument("--weights", default="checkpoints/maskdino_r50_50ep.pth")
+    parser.add_argument(
+        "--config-file",
+        default=str(
+            MASKDINO_ROOT
+            / "configs"
+            / "coco"
+            / "instance-segmentation"
+            / "maskdino_R50_bs16_50ep_3s_dowsample1_2048_bitmask.yaml"
+        ),
+    )
+    parser.add_argument("--allow-fallback", action="store_true")
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
 
@@ -134,6 +183,10 @@ def main():
         batch_size=args.batch_size,
         lr=args.lr,
         num_gpus=args.num_gpus,
+        weights=args.weights,
+        config_file=args.config_file,
+        num_workers=args.num_workers,
+        allow_fallback=args.allow_fallback,
     )
 
     os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
@@ -143,6 +196,102 @@ def main():
     from detectron2.evaluation import COCOEvaluator
 
     class BookSpineTrainer(DefaultTrainer):
+        @classmethod
+        def build_train_loader(cls, cfg):
+            from detectron2.data import build_detection_train_loader
+
+            if cfg.INPUT.DATASET_MAPPER_NAME == "coco_instance_lsj":
+                from maskdino import COCOInstanceNewBaselineDatasetMapper
+
+                mapper = COCOInstanceNewBaselineDatasetMapper(cfg, True)
+                return build_detection_train_loader(cfg, mapper=mapper)
+            return build_detection_train_loader(cfg)
+
+        @classmethod
+        def build_lr_scheduler(cls, cfg, optimizer):
+            from detectron2.projects.deeplab import build_lr_scheduler
+
+            return build_lr_scheduler(cfg, optimizer)
+
+        @classmethod
+        def build_optimizer(cls, cfg, model):
+            import torch
+            from detectron2.solver.build import maybe_add_gradient_clipping
+
+            weight_decay_norm = cfg.SOLVER.WEIGHT_DECAY_NORM
+            weight_decay_embed = cfg.SOLVER.WEIGHT_DECAY_EMBED
+            defaults = {
+                "lr": cfg.SOLVER.BASE_LR,
+                "weight_decay": cfg.SOLVER.WEIGHT_DECAY,
+            }
+
+            norm_module_types = (
+                torch.nn.BatchNorm1d,
+                torch.nn.BatchNorm2d,
+                torch.nn.BatchNorm3d,
+                torch.nn.SyncBatchNorm,
+                torch.nn.GroupNorm,
+                torch.nn.InstanceNorm1d,
+                torch.nn.InstanceNorm2d,
+                torch.nn.InstanceNorm3d,
+                torch.nn.LayerNorm,
+                torch.nn.LocalResponseNorm,
+            )
+
+            params: List[Dict[str, Any]] = []
+            memo: Set[torch.nn.parameter.Parameter] = set()
+            for module_name, module in model.named_modules():
+                for module_param_name, value in module.named_parameters(recurse=False):
+                    if not value.requires_grad or value in memo:
+                        continue
+                    memo.add(value)
+
+                    hyperparams = copy.copy(defaults)
+                    if "backbone" in module_name:
+                        hyperparams["lr"] *= cfg.SOLVER.BACKBONE_MULTIPLIER
+                    if (
+                        "relative_position_bias_table" in module_param_name
+                        or "absolute_pos_embed" in module_param_name
+                    ):
+                        hyperparams["weight_decay"] = 0.0
+                    if isinstance(module, norm_module_types):
+                        hyperparams["weight_decay"] = weight_decay_norm
+                    if isinstance(module, torch.nn.Embedding):
+                        hyperparams["weight_decay"] = weight_decay_embed
+                    params.append({"params": [value], **hyperparams})
+
+            def maybe_add_full_model_gradient_clipping(optim):
+                clip_norm_val = cfg.SOLVER.CLIP_GRADIENTS.CLIP_VALUE
+                enable = (
+                    cfg.SOLVER.CLIP_GRADIENTS.ENABLED
+                    and cfg.SOLVER.CLIP_GRADIENTS.CLIP_TYPE == "full_model"
+                    and clip_norm_val > 0.0
+                )
+
+                class FullModelGradientClippingOptimizer(optim):
+                    def step(self, closure=None):
+                        all_params = itertools.chain(*[x["params"] for x in self.param_groups])
+                        torch.nn.utils.clip_grad_norm_(all_params, clip_norm_val)
+                        super().step(closure=closure)
+
+                return FullModelGradientClippingOptimizer if enable else optim
+
+            optimizer_type = cfg.SOLVER.OPTIMIZER
+            if optimizer_type == "SGD":
+                optimizer = maybe_add_full_model_gradient_clipping(torch.optim.SGD)(
+                    params, cfg.SOLVER.BASE_LR, momentum=cfg.SOLVER.MOMENTUM
+                )
+            elif optimizer_type == "ADAMW":
+                optimizer = maybe_add_full_model_gradient_clipping(torch.optim.AdamW)(
+                    params, cfg.SOLVER.BASE_LR
+                )
+            else:
+                raise NotImplementedError(f"no optimizer type {optimizer_type}")
+
+            if cfg.SOLVER.CLIP_GRADIENTS.CLIP_TYPE != "full_model":
+                optimizer = maybe_add_gradient_clipping(cfg, optimizer)
+            return optimizer
+
         @classmethod
         def build_evaluator(cls, cfg, dataset_name, output_folder=None):
             if output_folder is None:
