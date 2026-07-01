@@ -333,31 +333,34 @@ def color_for_index(index: int) -> tuple[int, int, int]:
     return palette[(index - 1) % len(palette)]
 
 
-def draw_predictions(image: np.ndarray, detections: list[dict]) -> np.ndarray:
+def draw_predictions(image: np.ndarray, detections: list[dict], display_score_threshold: float) -> np.ndarray:
     overlay = image.copy()
     vis = image.copy()
 
     for det in detections:
         color = color_for_index(det["instance_id"])
         mask = det["mask"]
-        overlay[mask] = (overlay[mask] * 0.45 + np.array(color) * 0.55).astype(np.uint8)
+        alpha = 0.60 if det["score"] >= display_score_threshold else 0.25
+        overlay[mask] = (overlay[mask] * (1.0 - alpha) + np.array(color) * alpha).astype(np.uint8)
 
     vis = cv2.addWeighted(overlay, 0.65, vis, 0.35, 0.0)
 
     for det in detections:
         color = color_for_index(det["instance_id"])
         x1, y1, x2, y2 = det["bbox"]
-        cv2.rectangle(vis, (x1, y1), (x2, y2), color, 2)
+        thickness = 2 if det["score"] >= display_score_threshold else 1
+        cv2.rectangle(vis, (x1, y1), (x2, y2), color, thickness)
 
         contours, _ = cv2.findContours(
             det["mask"].astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
         )
-        cv2.drawContours(vis, contours, -1, color, 1)
+        cv2.drawContours(vis, contours, -1, color, thickness)
 
         label = f"#{det['instance_id']} {det['score']:.3f}"
         text_origin = (x1, max(18, y1 - 6))
-        cv2.putText(vis, label, text_origin, cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 0), 3)
-        cv2.putText(vis, label, text_origin, cv2.FONT_HERSHEY_SIMPLEX, 0.55, color, 1)
+        if det["score"] >= display_score_threshold:
+            cv2.putText(vis, label, text_origin, cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 0), 3)
+            cv2.putText(vis, label, text_origin, cv2.FONT_HERSHEY_SIMPLEX, 0.55, color, 1)
 
     return vis
 
@@ -377,7 +380,18 @@ def main() -> None:
         help="Job output directory. Defaults to output/jobs/<video_id>",
     )
     parser.add_argument("--sample-fps", type=float, default=3.0, help="Sample video at this FPS")
-    parser.add_argument("--score-threshold", type=float, default=0.5, help="Instance score threshold")
+    parser.add_argument(
+        "--model-score-threshold",
+        type=float,
+        default=0.10,
+        help="Minimum score written into detections.csv for downstream BoT-SORT",
+    )
+    parser.add_argument(
+        "--display-score-threshold",
+        type=float,
+        default=0.50,
+        help="Minimum score highlighted in visualization frames and annotated_video.mp4",
+    )
     parser.add_argument("--padding", type=int, default=6, help="Extra crop padding around predicted bbox")
     parser.add_argument("--select-roi", action="store_true", help="Interactively select a target shelf ROI")
     parser.add_argument("--roi-json", help="Path to normalized ROI json; defaults to <job_dir>/roi.json when ROI is used")
@@ -453,10 +467,15 @@ def main() -> None:
         normalized_roi = load_roi_json(roi_json_path)
         print(f"using roi json    -> {roi_json_path}")
 
+    if args.model_score_threshold <= 0:
+        raise SystemExit("--model-score-threshold must be > 0")
+    if args.display_score_threshold < args.model_score_threshold:
+        raise SystemExit("--display-score-threshold must be >= --model-score-threshold")
+
     predictor = build_predictor(
         weights=args.weights,
         config_file=args.config_file,
-        score_threshold=args.score_threshold,
+        score_threshold=args.model_score_threshold,
     )
 
     writer = None
@@ -504,7 +523,7 @@ def main() -> None:
 
             frame_detections = []
             for raw_idx, score in enumerate(scores, start=1):
-                if float(score) < args.score_threshold:
+                if float(score) < args.model_score_threshold:
                     continue
 
                 bbox = [int(round(v)) for v in boxes[raw_idx - 1]]
@@ -572,7 +591,7 @@ def main() -> None:
                     ]
                 )
 
-            vis = draw_predictions(frame, frame_detections)
+            vis = draw_predictions(frame, frame_detections, args.display_score_threshold)
             vis = draw_roi_outline(vis, roi_bbox)
             vis_name = f"{frame_index:06d}.jpg"
             vis_path = vis_dir / vis_name

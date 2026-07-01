@@ -1,0 +1,34 @@
+DEVA processing res: 624x320 (scale=0.557)
+DEVA model loaded (69.2M params)
+deva_frame=000000 inject=Y tracked=36 total_objects=36
+deva_frame=000001 inject=N tracked=0 total_objects=36
+deva_frame=000002 inject=Y tracked=36 total_objects=72
+Traceback (most recent call last):
+  File "/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/_tools/track_masks_deva.py", line 743, in <module>
+    main()
+  File "/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/_tools/track_masks_deva.py", line 559, in main
+    pred_prob = deva.step(frame_tensor, mask=None, end=False)
+  File "/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/third_party/Tracking-Anything-with-DEVA/deva/inference/inference_core.py", line 243, in step
+    pred_prob_with_bg = self._segment(key, selection, ms_features, update_sensory=not end)
+  File "/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/third_party/Tracking-Anything-with-DEVA/deva/inference/inference_core.py", line 102, in _segment
+    sensory, _, pred_prob_with_bg = self.network.segment(ms_features,
+  File "/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/third_party/Tracking-Anything-with-DEVA/deva/model/network.py", line 136, in segment
+    sensory, logits = self.mask_decoder(multi_scale_features,
+  File "/home/hsy/anaconda3/envs/book-spine/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/hsy/anaconda3/envs/book-spine/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/third_party/Tracking-Anything-with-DEVA/deva/model/big_modules.py", line 190, in forward
+    logits = self.pred(F.relu(p4.flatten(start_dim=0, end_dim=1).float()))
+  File "/home/hsy/anaconda3/envs/book-spine/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/hsy/anaconda3/envs/book-spine/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/hsy/anaconda3/envs/book-spine/lib/python3.10/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/home/hsy/anaconda3/envs/book-spine/lib/python3.10/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+RuntimeError: cuDNN error: CUDNN_STATUS_EXECUTION_FAILED
+/mnt/c/Users/15075/Desktop/课程作业/项目制实践-AI/third_party/Tracking-Anything-with-DEVA/deva/inference/image_feature_store.py:48: UserWarning: Leaking dict_keys([3]) in the image feature store
+  warnings.warn(f'Leaking {self._store.keys()} in the image feature store')
+STAGE2_EXIT=1
