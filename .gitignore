@@ -34,4 +34,6 @@ output/jobs/*
 !output/jobs/000/
 !output/jobs/000/**
 crops/
+!output/jobs/000/crops/
+!output/jobs/000/crops/**
 *.pt
