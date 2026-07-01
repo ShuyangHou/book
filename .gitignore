@@ -27,5 +27,11 @@ ocr_dict/
 env.yaml
 metrics.json
 output/
+!output/
+output/*
+!output/jobs/
+output/jobs/*
+!output/jobs/000/
+!output/jobs/000/**
 crops/
 *.pt
